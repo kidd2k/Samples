@@ -88,8 +88,7 @@ namespace GamePrototype
 	m_bIsInitialized(false),
 	m_bSetStaticPackages(false),
 	m_bSetDynamicPackages(false),
-	m_pipelineBuilder(static_cast<VulkanRenderContext&>(*info.m_renderer.GetRenderContext())),
-	m_bIsDrawActive(true)
+	m_pipelineBuilder(static_cast<VulkanRenderContext&>(*info.m_renderer.GetRenderContext()))
 	{
 	}
 
@@ -127,6 +126,9 @@ namespace GamePrototype
 					}
 				}
 
+				// NOTE: unlike the current OpenGL implementation,
+				// Vulkan IMultiDraw types share the same texture RGBA format 
+				// regardless of whether mesh objects use the alpha channel
 				m_texPackPtr = std::make_shared<VKNTexturePack>(vknContext,
 					texWidth,
 					texHeight,
@@ -136,20 +138,6 @@ namespace GamePrototype
 
 				RenderCheckOK(m_texPackPtr != TexturePackPtr());
 				RenderCheckOK(m_texPackPtr->Init());
-
-				#if 0
-				// NOTE: alpha and non alpha TexPackPtr now share same format. Perhaps
-				// now we no longer need two instances to handle alpha and non alpha
-				m_alphaTexPackPtr = std::make_shared<VKNTexturePack>(vknContext,
-					texWidth,
-					texHeight,
-					texMipMapLevels,
-					TexturePack::s_kMaxTextures,
-					VK_FORMAT_R8G8B8A8_UNORM);
-
-				RenderCheckOK(m_alphaTexPackPtr != TexturePackPtr());
-				RenderCheckOK(m_alphaTexPackPtr->Init());
-				#endif
 
 				m_dynamicMultiDrawObjectPtr = std::make_shared<VKNMultiDrawObject>(vknContext);
 				RenderCheckOK(m_dynamicMultiDrawObjectPtr != MultiDrawPtr());
@@ -203,6 +191,7 @@ namespace GamePrototype
 		{
 			return true;
 		}
+
 #if defined KIRBY_SANITY
 		RenderCheckOK(FakePrePass(pass, esPtr));
 		return true;
@@ -511,7 +500,6 @@ namespace GamePrototype
 		m_cachedShaderPtrs.clear();
 
 		m_texPackPtr = nullptr;
-		m_alphaTexPackPtr = nullptr;
 		m_staticPackages.clear();
 		m_dynamicPackages.clear();
 
@@ -523,11 +511,6 @@ namespace GamePrototype
 	int VKNBatchDrawEffect::GetEffectType() const
 	{
 		return m_effectType;
-	}
-
-	const Graphics::MaterialList& VKNBatchDrawEffect::GetMaterials() const
-	{
-		return m_materialList;
 	}
 
 	unsigned int VKNBatchDrawEffect::GetNumRenderTargets() const
@@ -559,16 +542,6 @@ namespace GamePrototype
 	void VKNBatchDrawEffect::SetEffectData(size_t index, const EffectData&)
 	{
 		assert(!"Not implemented yet!");
-	}
-
-	void VKNBatchDrawEffect::SetDrawActive(bool bVal)
-	{
-		m_bIsDrawActive = bVal;
-	}
-
-	bool VKNBatchDrawEffect::IsDrawActive() const
-	{
-		return m_bIsDrawActive;
 	}
 
 	bool VKNBatchDrawEffect::PostSceneGraph()

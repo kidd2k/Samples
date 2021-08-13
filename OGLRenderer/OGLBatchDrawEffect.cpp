@@ -30,8 +30,7 @@ namespace GamePrototype
 	m_bIsFirstAlphaStatic(true),
 	m_bIsInitialized(false),
 	m_bSetStaticPackages(false),
-	m_bSetDynamicPackages(false),
-	m_bIsDrawActive(true)
+	m_bSetDynamicPackages(false)
 	{
 	}
 
@@ -350,11 +349,6 @@ namespace GamePrototype
 		return m_effectType;
 	}
 
-	const Graphics::MaterialList& OGLBatchDrawEffect::GetMaterials() const
-	{
-		return m_materialList;
-	}
-
 	unsigned int OGLBatchDrawEffect::GetNumRenderTargets() const
 	{
 		return 0;
@@ -384,16 +378,6 @@ namespace GamePrototype
 	void OGLBatchDrawEffect::SetEffectData(size_t index, const EffectData&)
 	{
 		assert(!"Not implemented yet!");
-	}
-
-	void OGLBatchDrawEffect::SetDrawActive(bool bVal)
-	{
-		m_bIsDrawActive = bVal;
-	}
-
-	bool OGLBatchDrawEffect::IsDrawActive() const
-	{
-		return m_bIsDrawActive;
 	}
 
 	bool OGLBatchDrawEffect::PostSceneGraph()

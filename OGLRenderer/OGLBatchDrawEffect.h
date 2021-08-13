@@ -15,24 +15,6 @@ namespace GamePrototype
 	public:
 		explicit OGLBatchDrawEffect(const EffectInitInfo&);
 
-		enum TotalPasses
-		{
-			kFirstPass,
-			kSecondPass,
-			kMaxPasses
-		};
-
-		enum MyShaderPassIndex
-		{
-			kStaticShadowShaderIndex,
-			kStaticShaderIndex,
-			kDynamicShadowShaderIndex,
-			kDynamicShaderIndex,
-			kStaticAlphaBlendShaderIndex,
-			kDynamicAlphaBlendShaderIndex,
-			kMaxShaderIndex
-		};
-
 	protected:
 
 		// IEffect
@@ -47,21 +29,13 @@ namespace GamePrototype
 		virtual void ClearForNextFrame() override;
 		virtual int GetID() const override;
 		virtual void Free() override;
-		virtual Type GetType() const override { return kBase; }
 		virtual int GetEffectType() const override;
-		virtual const Graphics::MaterialList& GetMaterials() const override;
 		virtual unsigned int GetNumRenderTargets() const override;
 		virtual RenderTargetInfo GetRenderTarget(size_t) const override;
 		virtual void SetVariable(size_t shaderId, const char*, float val) override;
 		virtual void SetVariable(size_t shaderId, const char*, size_t, float*) override;
 		virtual float* GetVariable(size_t shaderId, const char*) const override;
 		virtual void SetEffectData(size_t index, const EffectData&) override;
-
-		// decides whether PrePass(), Draw(), and PostPass() calls will be allowed on this
-		// instance.
-		virtual void SetDrawActive(bool) override;
-		virtual bool IsDrawActive() const override;
-
 		virtual bool PostSceneGraph() override;
 
 	private:
@@ -90,7 +64,6 @@ namespace GamePrototype
 		std::vector<DrawPackageDataPtr>			m_dynamicPackages;
 		bool									m_bSetStaticPackages;
 		bool									m_bSetDynamicPackages;
-		bool 									m_bIsDrawActive;
 	};
 }
 
