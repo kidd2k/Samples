@@ -629,15 +629,7 @@ namespace GamePrototype
 
             if (currentShader)
             {
-                // attempt to flip y vertices. Data as specified seems to be upside down on Vulkan,
-                // probably due to the clip space origin being in the upper left corner as opposed
-                // to the OpenGL lower left corner.
-                Math::mat4 yScaleMat;
-                yScaleMat[5] = -1.f;
-                Graphics::CameraDrawInfo temp_cdi = cdi;
-                temp_cdi.projMat = temp_cdi.projMat * yScaleMat;
-                UpdateUniforms(/*cdi,*/temp_cdi, rsi);
-                //UpdateUniforms(cdi, rsi);
+                UpdateUniforms(cdi, rsi);
 
                 // start recording
 
@@ -1579,12 +1571,7 @@ namespace GamePrototype
             assert(currentShader);
             if (currentShader)
             {
-                // attempt to flip y vertices. Data as specified seems to be upside down on Vulkan.
-                Math::mat4 yScaleMat;
-                yScaleMat[5] = -1.f;
-                Graphics::CameraDrawInfo temp_cdi = cdi;
-                temp_cdi.projMat = temp_cdi.projMat * yScaleMat;
-                UpdateUniforms(/*cdi,*/temp_cdi, rsi);
+                UpdateUniforms(cdi, rsi);
 
                 // start recording
 
