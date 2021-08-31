@@ -13,41 +13,41 @@
 
 namespace GamePrototype
 {
-    class Renderer;
-    struct EffectInitInfo;
+	class Renderer;
+	struct EffectInitInfo;
 
-    class BatchDrawEffect : public IEffect
-    {
-    public:
-        explicit BatchDrawEffect(const EffectInitInfo&);
+	class BatchDrawEffect : public IEffect
+	{
+	public:
+		explicit BatchDrawEffect(const EffectInitInfo&);
 
-        enum TotalPasses
-        {
-            kFirstPass,
-            kSecondPass,
-            kMaxPasses
-        };
+		enum TotalPasses
+		{
+			kFirstPass,
+			kSecondPass,
+			kMaxPasses
+		};
 
-        enum MyShaderPassIndex
-        {
-            kStaticShadowShaderIndex,
-            kStaticShaderIndex,
-            kDynamicShadowShaderIndex,
-            kDynamicShaderIndex,
-            kStaticAlphaBlendShaderIndex,
-            kDynamicAlphaBlendShaderIndex,
-            kMaxShaderIndex
-        };
+		enum MyShaderPassIndex
+		{
+			kStaticShadowShaderIndex,
+			kStaticShaderIndex,
+			kDynamicShadowShaderIndex,
+			kDynamicShaderIndex,
+			kStaticAlphaBlendShaderIndex,
+			kDynamicAlphaBlendShaderIndex,
+			kMaxShaderIndex
+		};
 
-    protected:
+	protected:
 
-        // IEffect
-        virtual Type GetType() const override { return kBase; }
-        virtual const Graphics::MaterialList& GetMaterials() const override;
+		// IEffect
+		virtual Type GetType() const override { return kBase; }
+		virtual const Graphics::MaterialList& GetMaterials() const override;
 
-        Renderer&								m_renderer;
-        const Graphics::MaterialList			m_materialList;
-    };
+		Renderer&								m_renderer;
+		const Graphics::MaterialList			m_materialList;
+	};
 }
 
 #endif //BATCH_DRAW_EFFECT_H
